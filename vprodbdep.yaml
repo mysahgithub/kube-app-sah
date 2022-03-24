@@ -1,4 +1,4 @@
-apiVersion: app/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: vprodb
@@ -6,7 +6,7 @@ metadata:
     app: vprodb
 spec:
   selector:
-    matchLables:
+    matchLabels:
       app: vprodb
   replicas: 1
   template:
@@ -17,11 +17,11 @@ spec:
       containers:
         - name: vprodb
           image: vprofile/vprofiledb:V1
+          args:
+            - "ignore-db-dir=lost+found"
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: vpro-db-data
-              args:
-                - "ignore-db-dir=lost+found"
           ports:
             - name: vprodb-port
               containerPort: 3306
